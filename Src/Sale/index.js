@@ -58,7 +58,8 @@ export default function index(props) {
                             <Record
                                 Data={item}
                                 onEditPress={() => {
-                                    props.navigation.navigate('adder', { index })
+                                    var key = 'old'
+                                    props.navigation.navigate('adder', { index,key })
                                 }}
                                 onPressRemove={() => {
                                     Alert.alert(
@@ -111,7 +112,8 @@ export default function index(props) {
                     onClose={() => setShowModal(false)}
                     OnCreateNewBill={(index) => {
                         setShowModal(false)
-                        props.navigation.navigate('adder', { index })
+                        var key = 'new'
+                        props.navigation.navigate('adder', { index,key })
                         Toast.show('New Bill Genarated')
 
                     }}

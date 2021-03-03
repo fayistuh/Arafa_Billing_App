@@ -105,7 +105,7 @@ export default function index(props) {
                 {/* <Text style={{ fontFamily: config.medium, fontSize: 30, color: config.themeColor }}>{syncinfo == null ? '0' : syncinfo.NoOfProducts}</Text>
                 <Text style={{ fontFamily: config.regular, color: 'black', marginTop: -10 }}>Products Stored</Text>
                 <Text style={{ fontFamily: config.light, color: 'gray', }}>Customers saved: <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo == null ? '0' : syncinfo.NoOfCustomers}</Text></Text> */}
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>Synced with <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.shop.name}</Text></Text>
+                <Text style={{ fontFamily: config.light, color: 'gray', }}>Synced with <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.shop.shop_name}</Text></Text>
                 <Text style={{ fontFamily: config.light, color: 'gray', }}>Warehouse <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.warehouse.name}</Text></Text>
                 <Text style={{ fontFamily: config.light, color: 'gray', }}>Last synced at <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getTime(syncinfo.lastSync)}</Text></Text>
                 <Text style={{ fontFamily: config.light, color: 'gray', }}>On <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getDate(syncinfo.lastSync)}</Text></Text>

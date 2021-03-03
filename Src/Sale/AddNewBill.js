@@ -26,6 +26,7 @@ function AddNewBill(props) {
 
 
     const [searchMobile, setSearchMobile] = useState('')
+    const [searchName,setSearchName] = useState('')
     const [selectedCustomer, setSelectedCustomer] = useState(null)
 
     useEffect(() => {
@@ -51,13 +52,21 @@ function AddNewBill(props) {
         DATABASE_OPERATION(serchQuery)
     }
 
+    const readDatawithName = (name) => {
+        var serchQuery = {
+            type: 'cus_name',
+            key: name
+        }
+        DATABASE_OPERATION(serchQuery)
+    }
+
 
 
     const onPressCreate = (Customer) => {
-        console.warn(syncinfo.shop.id)
+        console.warn(syncinfo.shop.shop_pk)
 
         var billObj = {
-            "shop_id": syncinfo.shop.id,
+            "shop_id": syncinfo.shop_pk,
             "customer_pk": Customer.id,
             "warehouse_pk": syncinfo.warehouse.id,
             "special_discount": "0",
@@ -98,6 +107,21 @@ function AddNewBill(props) {
                                 autoFocus
                                 onChangeText={text => { readDatawithMobile(text), setSearchMobile(text) }}
                                 value={searchMobile}
+                            />
+                        </View>
+                        <TouchableOpacity onPress={() => readDatawithMobile(searchMobile)}
+                            style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center' }}>
+                            <AntDesign name='arrowright' size={20} color='white' />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:5 }}>
+                        <Text style={{ fontFamily: config.regular, color: 'white', marginRight: 10 }}>Name </Text>
+                        <View style={{ height: 40, width: 200, borderRadius: 5, backgroundColor: 'white' }}>
+                            <TextInput
+                                placeholder='Enter Customer Name...'
+                                onChangeText={text => { readDatawithName(text), setSearchName(text) }}
+                                value={searchName}
                             />
                         </View>
                         <TouchableOpacity onPress={() => readDatawithMobile(searchMobile)}

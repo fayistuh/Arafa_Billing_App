@@ -182,10 +182,16 @@ function Context(props) {
           setFilteredProducts(x)
 
         }
-        else {
+        else if(CONFIG.type == 'cus') {
           console.warn('searching customer')
           const cars = realm.objects('Customers');
           let x = cars.filtered(`phone BEGINSWITH "${CONFIG.key}"`)
+          setFilteredCustomers(x)
+        }
+        else{
+          console.warn('searching customer')
+          const cars = realm.objects('Customers');
+          let x = cars.filtered(`name BEGINSWITH "${CONFIG.key}"`)
           setFilteredCustomers(x)
         }
       }
@@ -286,8 +292,10 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://www.arafamobiles.com/api/v1/general/shops/',
-      headers: {}
+      url: 'http://www.arafamobiles.com/api/v1/general/access-shops/',
+      headers: {
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiMGNhODZlNzZiZDRlNGJlNjlmY2ZmNjEzNDdjZGY2MzciLCJleHAiOjE2MzI5MjYwODN9.sIhboLzoJh9zmYQiGcSzmxjDx2KCvi3skT4fHVQOwYI'
+      }
     };
 
     axios(config)
@@ -334,9 +342,9 @@ function Context(props) {
 
 
   const onStartDownload = () => {
-    console.warn(selectedShop.id)
+    console.warn(selectedShop.shop_pk)
     setDownloading(true)
-    getAllCustomers(selectedShop.id)
+    getAllCustomers(selectedShop.shop_pk)
   }
 
 
@@ -391,7 +399,7 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://arafamobiles.com/api/v1/products/products/' + selectedShop.id,
+      url: 'http://arafamobiles.com/api/v1/products/products/' + selectedShop.shop_pk,
     };
 
     axios(config)

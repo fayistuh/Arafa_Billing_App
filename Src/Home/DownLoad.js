@@ -120,7 +120,7 @@ function DownLoad(props) {
                                                 setSelectedShop(item)
                                             }}
                                             style={{ height: 40, borderBottomWidth: 0.5, justifyContent: 'space-between', borderColor: 'gray', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontFamily: config.medium, fontSize: 14, color: 'gray' }}>{item.name}</Text>
+                                            <Text style={{ fontFamily: config.medium, fontSize: 14, color: 'gray' }}>{item.shop_name}</Text>
                                             {selectedShop == item && <View style={{ height: 20, width: 20, borderRadius: 10, backgroundColor: 'green', justifyContent: 'center', alignItems: 'center' }}>
                                                 <AntDesign name='check' size={15} color='white' />
                                             </View>}
@@ -131,7 +131,7 @@ function DownLoad(props) {
                                 disabled={selectedShop == null ? true : false}
                                 onPress={() => {
                                     setListingMode('warehouse')
-                                    onRequestWarehouse(selectedShop.id)
+                                    onRequestWarehouse(selectedShop.shop_pk)
                                 }}
                                 style={{ height: 50, backgroundColor: selectedShop == null ? 'gray' : 'green', justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ fontFamily: config.bold, color: 'white' }}>CONTINUE</Text>
