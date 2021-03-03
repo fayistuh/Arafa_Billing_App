@@ -75,7 +75,7 @@ function Uploader(props) {
                             props.onUploadFailed()
                         }}
                         style={{ height: 50, backgroundColor: '#f0615b', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontFamily: config.bold, color: 'white' }}>STOP DOWNLOADING</Text>
+                        <Text style={{ fontFamily: config.bold, color: 'white' }}>STOP UPLOADING</Text>
                     </TouchableOpacity>
                 </View>
 

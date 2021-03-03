@@ -71,7 +71,8 @@ function AddNewBill(props) {
         arr.push(billObj)
         setBillArray(arr)
         updateLocalBills(arr)
-        props.OnCreateNewBill()
+        var index = arr.indexOf(billObj)
+        props.OnCreateNewBill(index)
 
         // props.onSelect(item)
     }
@@ -95,7 +96,7 @@ function AddNewBill(props) {
                                 placeholder='Enter Customer Mobile...'
                                 keyboardType='number-pad'
                                 autoFocus
-                                onChangeText={text => setSearchMobile(text)}
+                                onChangeText={text => { readDatawithMobile(text), setSearchMobile(text) }}
                                 value={searchMobile}
                             />
                         </View>

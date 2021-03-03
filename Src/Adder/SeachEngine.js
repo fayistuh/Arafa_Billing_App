@@ -69,7 +69,7 @@ function SeachEngine(props) {
                                 placeholder='Enter code here...'
                                 // keyboardType='number-pad'
                                 autoFocus
-                                onChangeText={text => setFilterKey(text)}
+                                onChangeText={text => { readData(text), setFilterKey(text) }}
                                 autoCapitalize='characters'
                             />
                         </View>

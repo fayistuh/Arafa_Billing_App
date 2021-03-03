@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert, BackHandler } from 'react-native'
 import config from '../Config'
 import { Record } from './Record'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -14,6 +14,23 @@ export default function index(props) {
     const { billArray,
         setBillArray, updateLocalBills } = useContext(AppContext)
     const [showModal, setShowModal] = useState(false)
+
+    useEffect(() => {
+        if (props.navigation.isFocused()) {
+            const backAction = () => {
+                props.navigation.goBack()
+                return true;
+            };
+
+            const backHandler = BackHandler.addEventListener(
+                "hardwareBackPress",
+                backAction
+            );
+
+            return () => backHandler.remove();
+        }
+        else false
+    }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -92,8 +109,9 @@ export default function index(props) {
             >
                 <AddNewBill
                     onClose={() => setShowModal(false)}
-                    OnCreateNewBill={() => {
+                    OnCreateNewBill={(index) => {
                         setShowModal(false)
+                        props.navigation.navigate('adder', { index })
                         Toast.show('New Bill Genarated')
 
                     }}

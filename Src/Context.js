@@ -178,14 +178,14 @@ function Context(props) {
       else {
         if (CONFIG.type == 'pro') {
           const cars = realm.objects('Products');
-          let x = cars.filtered("code == $0", CONFIG.key)
+          let x = cars.filtered(`code BEGINSWITH "${CONFIG.key}"`)
           setFilteredProducts(x)
 
         }
         else {
           console.warn('searching customer')
           const cars = realm.objects('Customers');
-          let x = cars.filtered("phone == $0", CONFIG.key)
+          let x = cars.filtered(`phone BEGINSWITH "${CONFIG.key}"`)
           setFilteredCustomers(x)
         }
       }

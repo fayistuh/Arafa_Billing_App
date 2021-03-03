@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, BackHandler, Alert } from 'react-native'
 import config from '../Config'
 import { CustomeButton } from '../Components/CustomeButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -11,6 +11,7 @@ export default function index(props) {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [activity, setActivity] = useState(false)
+
 
     const userLogin = () => {
         var axios = require('axios');
@@ -42,6 +43,38 @@ export default function index(props) {
             });
 
     }
+
+    useEffect(() => {
+        const backAction = () => {
+            if (props.navigation.isFocused()) {
+                // if (tapCount) {
+                //     BackHandler.exitApp()
+                // }
+                // setTabCount(true)
+                // setTimeout(() => setTabCount(false), 2000)
+                // Toast.show('Press Again to Exit')
+
+                Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+                    {
+                        text: 'Cancel',
+                        onPress: () => null,
+                        style: 'cancel',
+                    },
+                    { text: 'YES', onPress: () => BackHandler.exitApp() },
+                ]);
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+        );
+
+        return () => backHandler.remove();
+    }, []);
 
     const storeUserToken = async (token) => {
         var data = {
