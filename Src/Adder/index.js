@@ -13,7 +13,7 @@ import Toast from 'react-native-simple-toast'
 
 
 export default function indexX(props) {
-    const { index,key } = props.route.params
+    const { index, key } = props.route.params
 
     const { openedBill, setOpenedBill, billArray,
         setBillArray, syncinfo, updateLocalBills } = useContext(AppContext)
@@ -34,11 +34,12 @@ export default function indexX(props) {
     const [salesItems, setSaleItems] = useState(PRODUCTS)
     const [discount, setDiscount] = useState(Bill.special_discount)
 
-    useEffect(()=>{
-        if(key == 'new'){
+    useEffect(() => {
+        if (key == 'new') {
             setModal(true)
+            setMode('add')
         }
-    },[])
+    }, [])
 
     const addToBill = () => {
         if (code == '') {
@@ -211,10 +212,10 @@ export default function indexX(props) {
                                     <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'gray', marginHorizontal: 10 }}>Qty</Text>
                                     <View style={{ height: 40, width: 110, borderRadius: 5, borderWidth: 0.5, justifyContent: 'center', borderColor: 'gray', flexDirection: 'row' }}>
                                         <TextInput
-                                            style={{width:50}}
+                                            style={{ width: 50 }}
                                             placeholder='Qty'
                                             keyboardType='numeric'
-                                            autoFocus={key == 'new' ? true:false}
+                                            autoFocus={key == 'new' ? true : false}
                                             onChangeText={text => setQty(text)}
                                             value={qty}
                                         />
