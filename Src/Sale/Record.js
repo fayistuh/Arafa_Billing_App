@@ -26,9 +26,11 @@ function Record(props) {
                     style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
                     <AntDesign name='delete' size={15} />
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity 
+                onPress={()=>props.onPressPrint(Data)}
+                style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
                     <AntDesign name='printer' size={15} />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
         </View>
     )

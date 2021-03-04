@@ -6133,10 +6133,20 @@ react-native-gesture-handler@^1.9.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-html-to-pdf@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-html-to-pdf/-/react-native-html-to-pdf-0.9.1.tgz#74caed6e4e7344ba4f8b3f49425410896b7c61be"
+  integrity sha512-aACv9A2i9A6FY5hi9zuhDSsJqea3yRpbpQu0/y1LGPk9DknE4c0CDDOI9qjEJv+wgBpS1gfQM+sezqVlZ8xtlA==
+
 react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-permissions@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.1.tgz#7273f7d07701974ef50bf77bb052881846a3bb91"
+  integrity sha512-loCoNEeBeLsrvITZmrkuCUEMFiuwhKuFvkWbC5Imco4bj2hUW7BVI29i8QyxkC53ydRfSR9OtbR3KQIyghWiNQ==
 
 react-native-reanimated@^1.13.2:
   version "1.13.2"
@@ -6154,6 +6164,16 @@ react-native-screens@^2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.15.0.tgz#9b97c1881c4fcdf304bf363f0013225901625f44"
   integrity sha512-qTSQPy0WKHtlb8xt5gY0Gt6sdvfQUQAnFSqgsggW9UEvySbkHzpqOrOYNA79Ca8oXO0dCFwp6X8buIiDefa7+Q==
+
+react-native-share-pdf@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-share-pdf/-/react-native-share-pdf-0.0.6.tgz#731be00ab28a5e907016aa4c559910d1d2a4f550"
+  integrity sha512-4lvrEpHFv7rZkhU25lya745HTWQrVqElLvybuW4a6pLsHC7qmtCQaTxmvY/Tb+CJwJpvEHo29vqNQggVm83zcg==
+
+react-native-share@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-5.1.4.tgz#0b9d51f6ca724728cb0c5b3ed3a883ee54d7a11b"
+  integrity sha512-/eNBTuimOmzeeBbnZkwW6hbzSZvJnhfkx5cSdQkFS45KRHekD9twP6F8QHn+zJxeJGAP+EgpVCXoA7yCrgKrhQ==
 
 react-native-simple-toast@^1.1.3:
   version "1.1.3"
@@ -6173,6 +6193,11 @@ react-native-vector-icons@^7.0.0, react-native-vector-icons@^7.1.0:
     lodash.template "^4.5.0"
     prop-types "^15.7.2"
     yargs "^15.0.2"
+
+react-native-view-pdf@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-view-pdf/-/react-native-view-pdf-0.11.0.tgz#8853b63c664a00b56fc57ee20249a225425ca70d"
+  integrity sha512-Q63eoTMzepmhQuC2H6JG/vrgCP9t9dGtX74+m4KsCcQlxthBWrP1UKOOVYb0IFa0fgKOilTpQsjjhem08YfgxA==
 
 react-native@0.63.4:
   version "0.63.4"

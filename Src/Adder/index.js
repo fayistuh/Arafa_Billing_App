@@ -77,8 +77,8 @@ export default function indexX(props) {
                 var pr = {
                     "product_pk": product.id,
                     "product_code": code,
-                    "price": price * qty,
-                    "cost": product.price,
+                    "price": product.cost * qty,
+                    "cost": product.cost,
                     "qty": qty,
                 }
 
@@ -116,11 +116,11 @@ export default function indexX(props) {
         }
 
 
-        // var dummyBills = [...billArray]
-        // dummyBills[billIndex] = updatedBillObj
-        // setBillArray(dummyBills)
-        // updateLocalBills(dummyBills)
-        // Toast.show('Bill Saved')
+        var dummyBills = [...billArray]
+        dummyBills[billIndex] = updatedBillObj
+        setBillArray(dummyBills)
+        updateLocalBills(dummyBills)
+        Toast.show('Bill Saved')
         console.warn(updatedBillObj)
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert, BackHandler } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert, BackHandler,Platform } from 'react-native'
 import config from '../Config'
 import { Record } from './Record'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -7,6 +7,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { AddNewBill } from './AddNewBill'
 import AppContext from '../constant'
 import Toast from 'react-native-simple-toast'
+
+import Share from "react-native-share";
+import RNHTMLtoPDF from './react-native-html-to-pdf';
+import {request, PERMISSIONS} from 'react-native-permissions';
+// import Pdf from 'react-native-pdf';
+import PDFView from 'react-native-view-pdf'
+import RNShareFile from 'react-native-share-pdf';
+import html from './config'
 
 
 
@@ -31,6 +39,169 @@ export default function index(props) {
         }
         else false
     }, []);
+
+    const [invoicePath,setInvoicePath] = useState()
+    const [invoiceModal,setInvoiceModal] = useState(false)
+    const [invoicePathIOS,setInvoicePathIOS] = useState()
+
+   
+    const checkPermission =(Data)=>{
+        request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
+            if(result=='granted'){
+                createInvoice(Data)
+                console.warn('grant')
+            }
+            else{
+                console.warn('denied')
+            }
+        });
+    }
+   
+    const d = new Date()
+    const dl = d.toDateString()
+
+    const loopProducts =(Data)=>{
+        var products = Data.sale_items
+        var total = 0
+        var pro_list =''
+        products.map((item)=>{
+            var billrow = `
+            <tr class="item">
+                <td>
+                    ${item.product_code} 
+                </td>
+                <td>
+                    ${item.cost} 
+                </td>
+                <td/>
+                <td>
+                    ${item.qty} 
+                </td>
+                
+                <td>
+                    ${item.price}
+                </td>
+            </tr>`
+            pro_list = pro_list + billrow
+
+            total = total + item.price
+
+        })
+        return {list:pro_list,sub_total:total}
+
+    }
+
+    var v = {"c_name": "Bismilla", "c_phone": "9745567447", "customer_pk": "afd5c60b-e258-4f83-a984-1d5c94af7e2d", "sale_items": [{"cost": "89.00", "price": 267, "product_code": "LIVE L1", "product_pk": "e678455d-b6b6-4afc-b23d-f782b27b85ec", "qty": "3"}, {"cost": 485, "price": 291, "product_code": "CHICKEN C2_deleted", "qty": "3"}], "shop_id": "de449118-7c68-41aa-af84-26c60cf581a8", "special_discount": "0", "warehouse_pk": "a50af5a4-1875-4f97-9b37-be35bcae5cb3"}
+
+
+    
+      
+
+    
+
+    const createInvoice =async (Data)=>{
+
+        var inVoice = `
+        <!doctype html>
+        <html>
+            ${html.head}
+            <body>
+                <div class="invoice-box">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr class="top">
+                            <td colspan="2">
+                                <table>
+                                    <tr>
+            
+                                        <td>
+                                            Created: ${dl}<br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <tr class="heading">
+                            <td>
+                                Product code
+                            </td>
+                            <td>
+                                Cost
+                            </td>
+                            <td/>
+                            <td>
+                                Qty
+                            </td>
+                            
+                            <td>
+                                Price
+                            </td>
+                        </tr>
+                        
+                       ${loopProducts(Data).list}
+                        
+                        
+                        
+                        <tr class="total">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            
+                            <td>
+                            Sub Total:  ${loopProducts(Data).sub_total}<br>
+                            Discount:  ${Data.special_discount}<br>
+                            Total: ${(loopProducts(Data).sub_total) - Data.special_discount}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </body>
+        </html>`
+
+        const options = {
+            html: inVoice,
+            fileName: 'ArafaBill',
+            directory: 'Documents',
+            bgColor:'#ffffff',
+            height:'100%'
+          };
+          
+          const file = await RNHTMLtoPDF.convert(options)
+          // console.log(file.filePath);
+          setInvoicePath(file.filePath)
+
+          console.log('PDF PATH',file.filePath)
+          Toast.show('Invoice downloaded to your Documents');
+        //   alert(file.filePath);
+          setInvoiceModal(true)
+    }
+
+    const resources = {
+        file: Platform.OS === 'ios' ? invoicePathIOS+".pdf" : invoicePath,
+        url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        base64: 'JVBERi0xLjMKJcfs...',
+      };
+
+
+    const shareInvoice =async  ()=>{
+        Share.open({
+            title: "LavillaInvoice ",
+            message: "Message:",
+            url: 'file://'+invoicePath,
+            subject: "Report",
+        })
+        .then((res) => { console.warn(res) })
+        .catch((err) => { err && console.warn(err); });
+    }
+
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -86,6 +257,10 @@ export default function index(props) {
                                     );
 
                                 }}
+                                onPressPrint={(Data)=>{
+                                    console.warn(Data)
+                                    checkPermission(Data)
+                                }}
                             />
                         )}
                     />
@@ -119,6 +294,29 @@ export default function index(props) {
                     }}
                 />
 
+            </Modal>
+            <Modal visible={invoiceModal} animationType='slide' onRequestClose={()=>setInvoiceModal(false)}>
+                <View style={{flex:1,}}>
+                    <PDFView
+                        fadeInDuration={250.0}
+                        style={{ flex: 1 }}
+                        resource={resources.file}
+                        resourceType={'file'}
+                        onLoad={() => console.warn(`PDF rendered from ${'file'}`)}
+                        onError={(error) => console.warn('Cannot render PDF', error)}
+                    />
+                    <View style={{height:50,flexDirection:'row',margin:10}}>
+                        <TouchableOpacity onPress={()=>setInvoiceModal(false)}
+                            style={{flex:2,backgroundColor:'red',borderRadius:10,justifyContent:'center',alignItems:'center',marginRight:5}}>
+                            <Text style={{fontFamily:config.semi_bold,color:'white'}}>Close</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>shareInvoice()}
+                            style={{flex:1,backgroundColor:'green',borderRadius:10,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+                            <Text style={{fontFamily:config.semi_bold,color:'white',marginHorizontal:5}}>share</Text>
+                            {/* <Icon1 name='sharealt' size={20} color='white'/> */}
+                        </TouchableOpacity>
+                    </View>
+                    </View>
             </Modal>
         </View>
     )
