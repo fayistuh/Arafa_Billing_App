@@ -15,7 +15,8 @@ function BillRecord(props) {
                 <Text style={{ fontFamily: config.medium, fontSize: 12, color: 'black' }}>{Data.qty}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontFamily: config.medium, fontSize: 12 }}>{Data.price}</Text>
+                {Data.discount == 0 ? <Text style={{ fontFamily: config.medium, fontSize: 12 }}>{Data.price}</Text> :
+                    <Text style={{ fontFamily: config.medium, fontSize: 12 }}>{Data.price - Data.discount}({Data.price})</Text>}
             </View>
             <View style={{ flex: 1.5, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', marginRight: 10 }}>
                 <TouchableOpacity

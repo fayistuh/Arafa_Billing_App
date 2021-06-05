@@ -13,7 +13,7 @@ import Toast from 'react-native-simple-toast'
 
 
 export default function indexX(props) {
-    const { index,key } = props.route.params
+    const { index, key } = props.route.params
 
     const { openedBill, setOpenedBill, billArray,
         setBillArray, syncinfo, updateLocalBills } = useContext(AppContext)
@@ -24,7 +24,7 @@ export default function indexX(props) {
     const [subTotal, setSubTotal] = useState('0.00')
     const [product, setProduct] = useState({})
 
-    const [mode, setMode] = useState('')
+    const [mode, setMode] = useState('add')
     const [updateProductIndex, setUpdateProductIndex] = useState('')
 
     const billIndex = index
@@ -32,13 +32,13 @@ export default function indexX(props) {
     const PRODUCTS = Bill.sale_items
 
     const [salesItems, setSaleItems] = useState(PRODUCTS)
-    const [discount, setDiscount] = useState(Bill.special_discount)
+    const [discount, setDiscount] = useState('')
 
-    useEffect(()=>{
-        if(key == 'new'){
+    useEffect(() => {
+        if (key == 'new') {
             setModal(true)
         }
-    },[])
+    }, [])
 
     const addToBill = () => {
         if (code == '') {
@@ -62,6 +62,9 @@ export default function indexX(props) {
                         "price": price * qty,
                         "cost": product.price,
                         "qty": qty,
+                        "discount": discount == '' ? 0 : discount * qty,
+                        "name": product.name
+
                     }
                     console.warn(pr)
                     var arr = [...salesItems]
@@ -80,6 +83,9 @@ export default function indexX(props) {
                     "price": product.cost * qty,
                     "cost": product.cost,
                     "qty": qty,
+                    "discount": discount == '' ? 0 : discount * qty,
+                    "name": product.name
+
                 }
 
                 var dummyProducts = [...salesItems]
@@ -101,6 +107,14 @@ export default function indexX(props) {
         return Total.toFixed(2)
     }
 
+    const billDiscount = () => {
+        var Disconut = 0
+        salesItems.map((item) => {
+            Disconut = Disconut + parseFloat(item.discount)
+        })
+        return Disconut.toFixed(2)
+    }
+
 
 
     const saveBill = () => {
@@ -109,7 +123,7 @@ export default function indexX(props) {
             "shop_id": syncinfo.shop.shop_pk,
             "customer_pk": Bill.customer_pk,
             "warehouse_pk": Bill.warehouse_pk,
-            "special_discount": discount == '' ? 0 : discount,
+            "special_discount": billDiscount(),
             "sale_items": salesItems,
             "c_name": Bill.c_name,
             "c_phone": Bill.c_phone,
@@ -130,6 +144,7 @@ export default function indexX(props) {
         setCode('')
         setPrice('')
         setQty('')
+        setDiscount('')
     }
 
     const okButton = () => {
@@ -140,7 +155,7 @@ export default function indexX(props) {
     }
 
     const saveInication = () => {
-        if (salesItems == Bill.sale_items && discount == Bill.special_discount) {
+        if (salesItems == Bill.sale_items && billDiscount() == Bill.special_discount) {
             return true
         }
         else return false
@@ -157,8 +172,11 @@ export default function indexX(props) {
                     <View style={styles.headBox}>
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ width: '80%' }}>
-                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 13 }}>Customer name: <Text style={{ fontFamily: config.regular }}>{Bill.c_name}</Text></Text>
-                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 13 }}>Customer Mobile: <Text style={{ fontFamily: config.regular }}>{Bill.c_phone}</Text></Text>
+                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 12 }}>Customer name: <Text style={{ fontFamily: config.regular }}>{Bill.c_name}</Text></Text>
+                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 12 }}>Customer Mobile: <Text style={{ fontFamily: config.regular }}>{Bill.c_phone}</Text></Text>
+                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 12 }}>Sub Total: <Text style={{ fontFamily: config.regular }}>{billTotal()}</Text></Text>
+                                <Text style={{ fontFamily: config.light, color: 'white', fontSize: 12 }}>Discount: <Text style={{ fontFamily: config.regular }}>{billDiscount()}</Text></Text>
+                                <Text style={{ fontFamily: config.medium, color: 'white', fontSize: 12 }}>Bill Total: <Text style={{ fontFamily: config.medium }}>{billTotal() - billDiscount()}</Text></Text>
                             </View>
                             <TouchableOpacity
                                 onPress={() => {
@@ -171,7 +189,7 @@ export default function indexX(props) {
                                 <Text style={{ fontFamily: config.semi_bold, color: 'white' }}>Save</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{
+                        {/* <View style={{
                             flexDirection: 'row',
                             justifyContent: 'center', alignItems: 'center'
                         }}>
@@ -181,7 +199,8 @@ export default function indexX(props) {
                                 saveBill()
                                 console.warn('OKKKK')
                             }} style={{ fontFamily: config.medium, color: 'white' }}>{billTotal()}</Text>
-                        </View>
+                        </View> */}
+
 
 
                     </View>
@@ -211,10 +230,10 @@ export default function indexX(props) {
                                     <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'gray', marginHorizontal: 10 }}>Qty</Text>
                                     <View style={{ height: 40, width: 110, borderRadius: 5, borderWidth: 0.5, justifyContent: 'center', borderColor: 'gray', flexDirection: 'row' }}>
                                         <TextInput
-                                            style={{width:50}}
+                                            style={{ width: 50 }}
                                             placeholder='Qty'
                                             keyboardType='numeric'
-                                            autoFocus={key == 'new' ? true:false}
+                                            autoFocus={key == 'new' ? true : false}
                                             onChangeText={text => setQty(text)}
                                             value={qty}
                                         />
@@ -228,7 +247,7 @@ export default function indexX(props) {
                                     <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'gray', marginHorizontal: 10 }}>Sub Total</Text>
                                     <View style={{ height: 40, width: 110, borderRadius: 20, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', flexDirection: 'row', backgroundColor: config.themeColor }}>
                                         <MaterialCommunityIcons name='currency-inr' color='white' size={15} style={{ marginTop: -5 }} />
-                                        <Text style={{ fontFamily: config.medium, color: 'white' }}>{price * qty}</Text>
+                                        <Text style={{ fontFamily: config.medium, color: 'white' }}>{(price * qty) - discount * qty} </Text>
                                     </View>
 
                                 </View>
@@ -254,7 +273,7 @@ export default function indexX(props) {
 
                             <View style={{ height: 40, marginHorizontal: 20, position: 'absolute', top: 10, right: 0, width: 150, borderRadius: 5, borderWidth: 0.5, borderColor: 'gray' }}>
                                 <TextInput
-                                    placeholder={discount == 0 ? 'Bill Discount is 0' : discount}
+                                    placeholder={'Discount is 0'}
                                     keyboardType='numeric'
                                     onChangeText={text => setDiscount(text)}
                                     value={discount}
@@ -292,6 +311,8 @@ export default function indexX(props) {
                                             setSubTotal(item.price)
                                             setQty(item.qty)
                                             setProduct(item)
+                                            setDiscount(String(item.discount / item.qty))
+                                            // console.warn(typeof (item.discount / item.qty))
                                         }}
                                         onPressDelete={() => {
                                             Alert.alert(
@@ -318,15 +339,6 @@ export default function indexX(props) {
                                     />
                                 )}
                             />
-                            {/* <FlatList
-                            data={presses}
-                            numColumns={3}
-                            renderItem={(({ item }) =>
-                                <CustomeButton
-                                    Data={item}
-                                />
-                            )}
-                        /> */}
                         </View>
                     </View>
                 </View>
@@ -345,9 +357,10 @@ export default function indexX(props) {
                         setPrice(item.price)
                         setSubTotal(item.price)
                         setQty(0)
+                        setDiscount('')
                         setProduct(item)
                         setModal(false)
-                        console.warn(item)
+
                     }}
                 />
 
@@ -366,7 +379,7 @@ const styles = StyleSheet.create({
 
     },
     headBox: {
-        height: 100,
+        height: 120,
         backgroundColor: config.themeColor,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,

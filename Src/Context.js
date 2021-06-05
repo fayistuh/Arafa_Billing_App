@@ -182,13 +182,13 @@ function Context(props) {
           setFilteredProducts(x)
 
         }
-        else if(CONFIG.type == 'cus') {
+        else if (CONFIG.type == 'cus') {
           console.warn('searching customer')
           const cars = realm.objects('Customers');
           let x = cars.filtered(`phone BEGINSWITH "${CONFIG.key}"`)
           setFilteredCustomers(x)
         }
-        else{
+        else {
           console.warn('searching customer')
           const cars = realm.objects('Customers');
           let x = cars.filtered(`name BEGINSWITH "${CONFIG.key}"`)
@@ -294,7 +294,7 @@ function Context(props) {
       method: 'get',
       url: 'http://www.arafamobiles.com/api/v1/general/access-shops/',
       headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiMGNhODZlNzZiZDRlNGJlNjlmY2ZmNjEzNDdjZGY2MzciLCJleHAiOjE2MzI5MjYwODN9.sIhboLzoJh9zmYQiGcSzmxjDx2KCvi3skT4fHVQOwYI'
+        Authorization: 'Bearer ' + userToken
       }
     };
 

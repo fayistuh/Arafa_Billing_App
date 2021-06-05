@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert, BackHandler,Platform } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Modal, Alert, BackHandler, Platform, Linking } from 'react-native'
 import config from '../Config'
 import { Record } from './Record'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -10,7 +10,7 @@ import Toast from 'react-native-simple-toast'
 
 import Share from "react-native-share";
 import RNHTMLtoPDF from './react-native-html-to-pdf';
-import {request, PERMISSIONS} from 'react-native-permissions';
+import { request, PERMISSIONS } from 'react-native-permissions';
 // import Pdf from 'react-native-pdf';
 import PDFView from 'react-native-view-pdf'
 import RNShareFile from 'react-native-share-pdf';
@@ -20,7 +20,7 @@ import html from './config'
 
 export default function index(props) {
     const { billArray,
-        setBillArray, updateLocalBills } = useContext(AppContext)
+        setBillArray, updateLocalBills, syncinfo } = useContext(AppContext)
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
@@ -40,35 +40,38 @@ export default function index(props) {
         else false
     }, []);
 
-    const [invoicePath,setInvoicePath] = useState()
-    const [invoiceModal,setInvoiceModal] = useState(false)
-    const [invoicePathIOS,setInvoicePathIOS] = useState()
+    const [invoicePath, setInvoicePath] = useState()
+    const [invoiceModal, setInvoiceModal] = useState(false)
+    const [invoicePathIOS, setInvoicePathIOS] = useState()
 
-   
-    const checkPermission =(Data)=>{
+
+    const checkPermission = (Data) => {
         request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
-            if(result=='granted'){
+            if (result == 'granted') {
                 createInvoice(Data)
                 console.warn('grant')
             }
-            else{
+            else {
                 console.warn('denied')
             }
         });
     }
-   
+
     const d = new Date()
     const dl = d.toDateString()
 
-    const loopProducts =(Data)=>{
+    const loopProducts = (Data) => {
         var products = Data.sale_items
         var total = 0
-        var pro_list =''
-        products.map((item)=>{
+        var pro_list = ''
+        products.map((item) => {
             var billrow = `
             <tr class="item">
                 <td>
                     ${item.product_code} 
+                </td>
+                <td>
+                    ${item.name} 
                 </td>
                 <td>
                     ${item.cost} 
@@ -76,6 +79,10 @@ export default function index(props) {
                 <td/>
                 <td>
                     ${item.qty} 
+                </td>
+
+                <td>
+                    ${item.discount} 
                 </td>
                 
                 <td>
@@ -86,20 +93,21 @@ export default function index(props) {
 
             total = total + item.price
 
+
         })
-        return {list:pro_list,sub_total:total}
+        return { list: pro_list, sub_total: total }
 
     }
 
-    var v = {"c_name": "Bismilla", "c_phone": "9745567447", "customer_pk": "afd5c60b-e258-4f83-a984-1d5c94af7e2d", "sale_items": [{"cost": "89.00", "price": 267, "product_code": "LIVE L1", "product_pk": "e678455d-b6b6-4afc-b23d-f782b27b85ec", "qty": "3"}, {"cost": 485, "price": 291, "product_code": "CHICKEN C2_deleted", "qty": "3"}], "shop_id": "de449118-7c68-41aa-af84-26c60cf581a8", "special_discount": "0", "warehouse_pk": "a50af5a4-1875-4f97-9b37-be35bcae5cb3"}
 
 
-    
-      
 
-    
 
-    const createInvoice =async (Data)=>{
+
+
+
+
+    const createInvoice = async (Data) => {
 
         var inVoice = `
         <!doctype html>
@@ -112,10 +120,14 @@ export default function index(props) {
                             <td colspan="2">
                                 <table>
                                     <tr>
+                                        <td>
+                                            Customer Name: ${Data.c_name}<br>
+                                        </td>
             
                                         <td>
                                             Created: ${dl}<br>
                                         </td>
+                                        
                                     </tr>
                                 </table>
                             </td>
@@ -132,11 +144,17 @@ export default function index(props) {
                                 Product code
                             </td>
                             <td>
+                                Product Name
+                            </td>
+                            <td>
                                 Cost
                             </td>
                             <td/>
                             <td>
                                 Qty
+                            </td>
+                            <td>
+                                Discount
                             </td>
                             
                             <td>
@@ -149,6 +167,8 @@ export default function index(props) {
                         
                         
                         <tr class="total">
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -170,36 +190,80 @@ export default function index(props) {
             html: inVoice,
             fileName: 'ArafaBill',
             directory: 'Documents',
-            bgColor:'#ffffff',
-            height:'100%'
-          };
-          
-          const file = await RNHTMLtoPDF.convert(options)
-          // console.log(file.filePath);
-          setInvoicePath(file.filePath)
+            bgColor: '#ffffff',
+            height: '100%'
+        };
 
-          console.log('PDF PATH',file.filePath)
-          Toast.show('Invoice downloaded to your Documents');
+        const file = await RNHTMLtoPDF.convert(options)
+        // console.log(file.filePath);
+        setInvoicePath(file.filePath)
+
+        console.log('PDF PATH', file.filePath)
+        Toast.show('Invoice downloaded to your Documents');
         //   alert(file.filePath);
-          setInvoiceModal(true)
+        setInvoiceModal(true)
     }
 
     const resources = {
-        file: Platform.OS === 'ios' ? invoicePathIOS+".pdf" : invoicePath,
+        file: Platform.OS === 'ios' ? invoicePathIOS + ".pdf" : invoicePath,
         url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
         base64: 'JVBERi0xLjMKJcfs...',
-      };
+    };
 
 
-    const shareInvoice =async  ()=>{
+    const shareInvoice = async () => {
         Share.open({
-            title: "LavillaInvoice ",
+            title: "ArafaInvoice ",
             message: "Message:",
-            url: 'file://'+invoicePath,
+            url: 'file://' + invoicePath,
             subject: "Report",
         })
-        .then((res) => { console.warn(res) })
-        .catch((err) => { err && console.warn(err); });
+            .then((res) => { console.warn(res) })
+            .catch((err) => { console.warn('ERRR') });
+    }
+
+
+    const textToWhatsapp = async (Data) => {
+        var dum = Data.c_phone
+        if (dum.length == 10) {
+            var phoneNUmber = dum
+        }
+        else {
+            var phoneNUmber = (dum).substring(2, 12)
+        }
+
+
+        var products = Data.sale_items
+        var pro_list = ''
+        var t = 0
+        products.map((item) => {
+
+            var billrow = `%0a${item.product_code} - ${item.name} - ${item.qty} - ₹${item.price - item.discount}`
+            pro_list = pro_list + billrow
+            t = t + item.price
+
+        })
+
+        var subTotal = t
+        var billDiscount = Data.special_discount
+        var Total = subTotal - billDiscount
+
+        var summary = `%0a Total ₹${Total}`
+
+        var shopName = syncinfo.shop.shop_name
+        var msg = `${shopName} ${pro_list}${summary}`
+        let url = "whatsapp://send?text=" +
+            msg +
+            "&phone=91" +
+            phoneNUmber;
+
+        Linking.openURL(url)
+            .then(data => {
+                console.log("WhatsApp Opened successfully " + data);  //<---Success
+            })
+            .catch(() => {
+                alert("Make sure WhatsApp installed on your device");  //<---Error
+            });
     }
 
 
@@ -218,7 +282,7 @@ export default function index(props) {
                             <Text style={{ fontFamily: config.semi_bold, color: 'white', fontSize: 12 }}>Item Count</Text>
                             {/* <MaterialCommunityIcons name='currency-inr' size={15} color='white' /> */}
                         </View>
-                        <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'center', marginRight: 5 }}>
+                        <View style={{ flex: 2.5, justifyContent: 'center', alignItems: 'center', marginRight: 5 }}>
                             <Text style={{ fontFamily: config.semi_bold, color: 'white', fontSize: 12 }}>Action</Text>
                         </View>
                     </View>
@@ -230,7 +294,7 @@ export default function index(props) {
                                 Data={item}
                                 onEditPress={() => {
                                     var key = 'old'
-                                    props.navigation.navigate('adder', { index,key })
+                                    props.navigation.navigate('adder', { index, key })
                                 }}
                                 onPressRemove={() => {
                                     Alert.alert(
@@ -257,9 +321,17 @@ export default function index(props) {
                                     );
 
                                 }}
-                                onPressPrint={(Data)=>{
+                                onPressPrint={(Data) => {
                                     console.warn(Data)
                                     checkPermission(Data)
+                                }}
+                                onPressWhatsapp={(data) => {
+                                    if (data.c_phone.length == 10 || data.c_phone.length == 12) {
+                                        textToWhatsapp(data)
+                                    }
+                                    else {
+                                        Toast.show('This number is not Valid')
+                                    }
                                 }}
                             />
                         )}
@@ -288,15 +360,15 @@ export default function index(props) {
                     OnCreateNewBill={(index) => {
                         setShowModal(false)
                         var key = 'new'
-                        props.navigation.navigate('adder', { index,key })
+                        props.navigation.navigate('adder', { index, key })
                         Toast.show('New Bill Genarated')
 
                     }}
                 />
 
             </Modal>
-            <Modal visible={invoiceModal} animationType='slide' onRequestClose={()=>setInvoiceModal(false)}>
-                <View style={{flex:1,}}>
+            <Modal visible={invoiceModal} animationType='slide' onRequestClose={() => setInvoiceModal(false)}>
+                <View style={{ flex: 1, }}>
                     <PDFView
                         fadeInDuration={250.0}
                         style={{ flex: 1 }}
@@ -305,18 +377,18 @@ export default function index(props) {
                         onLoad={() => console.warn(`PDF rendered from ${'file'}`)}
                         onError={(error) => console.warn('Cannot render PDF', error)}
                     />
-                    <View style={{height:50,flexDirection:'row',margin:10}}>
-                        <TouchableOpacity onPress={()=>setInvoiceModal(false)}
-                            style={{flex:2,backgroundColor:'red',borderRadius:10,justifyContent:'center',alignItems:'center',marginRight:5}}>
-                            <Text style={{fontFamily:config.semi_bold,color:'white'}}>Close</Text>
+                    <View style={{ height: 50, flexDirection: 'row', margin: 10 }}>
+                        <TouchableOpacity onPress={() => setInvoiceModal(false)}
+                            style={{ flex: 2, backgroundColor: 'red', borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: 5 }}>
+                            <Text style={{ fontFamily: config.semi_bold, color: 'white' }}>Close</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>shareInvoice()}
-                            style={{flex:1,backgroundColor:'green',borderRadius:10,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                            <Text style={{fontFamily:config.semi_bold,color:'white',marginHorizontal:5}}>share</Text>
+                        <TouchableOpacity onPress={() => shareInvoice()}
+                            style={{ flex: 1, backgroundColor: 'green', borderRadius: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                            <Text style={{ fontFamily: config.semi_bold, color: 'white', marginHorizontal: 5 }}>share</Text>
                             {/* <Icon1 name='sharealt' size={20} color='white'/> */}
                         </TouchableOpacity>
                     </View>
-                    </View>
+                </View>
             </Modal>
         </View>
     )

@@ -21,18 +21,19 @@ function Uploader(props) {
     const onUploadData = () => {
         console.warn('TTTOKE', userToken)
         var axios = require('axios');
-        var FormData = require('form-data');
-        var data = new FormData();
-        data.append('data', JSON.stringify(billArray));
+        var data = billArray
+        // data.append('data', JSON.stringify(billArray));
 
         var config = {
             method: 'post',
-            url: 'http://www.arafamobiles.com/api/v1/sales/create/',
+            url: 'http://arafamobiles.com/api/v1/sales/create/',
             headers: {
                 'Authorization': 'Bearer ' + userToken,
             },
             data: data
         };
+
+        console.warn(billArray)
 
         axios(config)
             .then(function (response) {

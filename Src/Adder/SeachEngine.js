@@ -82,7 +82,7 @@ function SeachEngine(props) {
                 <View style={{ flex: 1 }}>
                     <FlatList
                         data={filteredProducts}
-                        keyboardShouldPersistTaps
+                        keyboardShouldPersistTaps='always'
                         renderItem={(({ item }) =>
                             <TouchableOpacity
                                 onPress={() => props.onSelect(item)}

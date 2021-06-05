@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import config from '../Config'
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 function Record(props) {
     const { Data } = props
@@ -15,7 +16,7 @@ function Record(props) {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontFamily: config.medium, fontSize: 12 }}>{(Data.sale_items).length}</Text>
             </View>
-            <View style={{ flex: 1.5, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', marginRight: 10 }}>
+            <View style={{ flex: 2.5, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', marginRight: 10 }}>
                 <TouchableOpacity
                     onPress={props.onEditPress}
                     style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
@@ -26,10 +27,15 @@ function Record(props) {
                     style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
                     <AntDesign name='delete' size={15} />
                 </TouchableOpacity>
-                <TouchableOpacity 
-                onPress={()=>props.onPressPrint(Data)}
-                style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity
+                    onPress={() => props.onPressPrint(Data)}
+                    style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
                     <AntDesign name='printer' size={15} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => props.onPressWhatsapp(Data)}
+                    style={{ height: 30, width: 30, backgroundColor: 'white', elevation: 3, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+                    <MaterialCommunityIcons name='whatsapp' size={15} />
                 </TouchableOpacity>
             </View>
         </View>
