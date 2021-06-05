@@ -37,6 +37,7 @@ export default function indexX(props) {
     useEffect(() => {
         if (key == 'new') {
             setModal(true)
+            setMode('add')
         }
     }, [])
 
