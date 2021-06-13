@@ -244,18 +244,24 @@ export default function index(props) {
 
         })
 
+
         var subTotal = t
         var billDiscount = Data.special_discount
         var Total = subTotal - billDiscount
 
         var summary = `%0a Total ₹${Total}`
 
-        var shopName = syncinfo.shop.shop_name
-        var msg = `${shopName} ${pro_list}${summary}`
+        // var shopName = syncinfo.shop.shop_name
+        var shopName = `${syncinfo.shop.shop_name}`
+        var msg = `${pro_list}${summary}%0a%0a%0a${shopName}`
+        // var msg = `AAANAAN`
         let url = "whatsapp://send?text=" +
             msg +
             "&phone=91" +
             phoneNUmber;
+
+        console.warn(msg)
+
 
         Linking.openURL(url)
             .then(data => {

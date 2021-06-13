@@ -457,7 +457,7 @@ function Context(props) {
     }
     try {
       await AsyncStorage.setItem('@syncinfo', JSON.stringify(syncObj))
-      Toast.show('sync info updated suucessfully')
+      Toast.show('sync info updated successfully')
       console.warn('KKKKKKKKKKKKKKKKKKKKKKKKKK', syncObj)
       setSyncInfo(syncObj)
       setCustomerTask('waiting')
