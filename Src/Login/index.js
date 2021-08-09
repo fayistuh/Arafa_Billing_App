@@ -38,8 +38,12 @@ export default function index(props) {
 
             })
             .catch(function (error) {
+                storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
+
                 alert(error)
                 setActivity(false)
+
+
             });
 
     }

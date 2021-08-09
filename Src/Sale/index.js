@@ -15,12 +15,17 @@ import { request, PERMISSIONS } from 'react-native-permissions';
 import PDFView from 'react-native-view-pdf'
 import RNShareFile from 'react-native-share-pdf';
 import html from './config'
-
+import {
+    USBPrinter,
+    NetPrinter,
+    BLEPrinter,
+} from "react-native-thermal-receipt-printer";
+import Xprinter from '../Components/Xprinter/PrintFormatter'
 
 
 export default function index(props) {
     const { billArray,
-        setBillArray, updateLocalBills, syncinfo } = useContext(AppContext)
+        setBillArray, updateLocalBills, syncinfo, currentPrinter, setCurrentPrinter } = useContext(AppContext)
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
@@ -273,6 +278,13 @@ export default function index(props) {
     }
 
 
+
+    const printTextTest = (Data) => {
+        var printText = Xprinter.makeBillFormat(Data)
+        currentPrinter && BLEPrinter.printBill(printText);
+    }
+
+
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -337,6 +349,15 @@ export default function index(props) {
                                     }
                                     else {
                                         Toast.show('This number is not Valid')
+                                    }
+                                }}
+
+                                onPressThermalPrint={(Data) => {
+                                    if (currentPrinter) {
+                                        printTextTest(Data)
+                                    }
+                                    else {
+                                        Toast.show('Printer Not Connected')
                                     }
                                 }}
                             />

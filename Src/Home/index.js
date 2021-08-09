@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { View, Text, ActivityIndicator, Modal, Alert, TouchableOpacity } from 'react-native'
+import { View, Text, ActivityIndicator, Modal, Alert, TouchableOpacity, ScrollView } from 'react-native'
 import { CustomeButton } from '../Components/CustomeButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-simple-toast'
@@ -8,6 +8,8 @@ import AppContext from '../constant'
 import { DownLoad } from './DownLoad'
 import x from './dm'
 import { Uploader } from './UploaderView'
+import Config from '../Config'
+import HomeView from '../Components/Xprinter/HomeView'
 
 
 
@@ -101,74 +103,85 @@ export default function index(props) {
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white', }}>
-            {syncinfo != null && <View style={{ height: 100, margin: 15 }}>
-                {/* <Text style={{ fontFamily: config.medium, fontSize: 30, color: config.themeColor }}>{syncinfo == null ? '0' : syncinfo.NoOfProducts}</Text>
-                <Text style={{ fontFamily: config.regular, color: 'black', marginTop: -10 }}>Products Stored</Text>
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>Customers saved: <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo == null ? '0' : syncinfo.NoOfCustomers}</Text></Text> */}
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>Synced with <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.shop.shop_name}</Text></Text>
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>Warehouse <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.warehouse.name}</Text></Text>
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>Last synced at <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getTime(syncinfo.lastSync)}</Text></Text>
-                <Text style={{ fontFamily: config.light, color: 'gray', }}>On <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getDate(syncinfo.lastSync)}</Text></Text>
-            </View>}
             <View style={{ flex: 1 }}>
-                {syncinfo != null && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <CustomeButton
-                        onPress={() => {
-                            Alert.alert(
-                                "Please confirm",
-                                "Are you sure want to download new data, It will clear all existing database",
-                                [
-                                    {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Cancel Pressed"),
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "OK", onPress: () => {
-                                            setSyncInfo(null)
-                                            DeleteAllCustomers()
-                                        }
-                                    }
-                                ],
-                                { cancelable: false }
-                            );
-                        }}
-                        MarginVertical={20}
-                        Content={"LOAD TODAY'S DATA"}
-                        Activity={downloading}
-                    />
-                    <CustomeButton
-                        MarginVertical={20}
-                        Content={"SALES"}
-                        onPress={() => props.navigation.navigate('sale')}
-                    />
-                    {billArray.length > 0 && <CustomeButton
-                        MarginVertical={20}
-                        onPress={() => setUploading(true)}
-                        Content={"UPLOAD DATA"}
-                    />}
-                    <CustomeButton
-                        MarginVertical={20}
-                        onPress={() => {
-                            Alert.alert(
-                                "Please confirm",
-                                "Are you sure want to Logout",
-                                [
-                                    {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Cancel Pressed"),
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "OK", onPress: () => onLogout()
-                                    }
-                                ],
-                                { cancelable: false }
-                            );
-                        }}
-                        Content={"LOGOUT"}
-                    />
-                </View>}
+                {syncinfo != null &&
+
+                    <View style={{ flex: 1, backgroundColor: 'white' }}>
+                        <View style={{ height: 50, backgroundColor: 'white', elevation: 3, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontFamily: Config.bold }}>ARAFA</Text>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <ScrollView>
+                                <View style={{ minHeight: 100, margin: 15 }}>
+                                    <Text style={{ fontFamily: config.light, color: 'gray', }}>Synced with <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.shop.shop_name}</Text></Text>
+                                    <Text style={{ fontFamily: config.light, color: 'gray', }}>Warehouse <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{syncinfo.warehouse.name}</Text></Text>
+                                    <Text style={{ fontFamily: config.light, color: 'gray', }}>Last synced at <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getTime(syncinfo.lastSync)}</Text></Text>
+                                    <Text style={{ fontFamily: config.light, color: 'gray', }}>On <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getDate(syncinfo.lastSync)}</Text></Text>
+                                </View>
+                                <HomeView />
+
+                                <View style={{ alignItems: 'center' }}>
+                                    <CustomeButton
+                                        onPress={() => {
+                                            Alert.alert(
+                                                "Please confirm",
+                                                "Are you sure want to download new data, It will clear all existing database",
+                                                [
+                                                    {
+                                                        text: "Cancel",
+                                                        onPress: () => console.log("Cancel Pressed"),
+                                                        style: "cancel"
+                                                    },
+                                                    {
+                                                        text: "OK", onPress: () => {
+                                                            setSyncInfo(null)
+                                                            DeleteAllCustomers()
+                                                        }
+                                                    }
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        }}
+                                        MarginVertical={20}
+                                        Content={"LOAD TODAY'S DATA"}
+                                        Activity={downloading}
+                                    />
+                                    <CustomeButton
+                                        MarginVertical={20}
+                                        Content={"SALES"}
+                                        onPress={() => props.navigation.navigate('sale')}
+                                    />
+                                    {billArray.length > 0 && <CustomeButton
+                                        MarginVertical={20}
+                                        onPress={() => setUploading(true)}
+                                        Content={"UPLOAD DATA"}
+                                    />}
+                                    <CustomeButton
+                                        MarginVertical={20}
+                                        onPress={() => {
+                                            Alert.alert(
+                                                "Please confirm",
+                                                "Are you sure want to Logout",
+                                                [
+                                                    {
+                                                        text: "Cancel",
+                                                        onPress: () => console.log("Cancel Pressed"),
+                                                        style: "cancel"
+                                                    },
+                                                    {
+                                                        text: "OK", onPress: () => onLogout()
+                                                    }
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        }}
+                                        Content={"LOGOUT"}
+                                    />
+                                </View>
+                            </ScrollView>
+                        </View>
+
+                    </View>}
 
                 {syncinfo == null &&
                     <View style={{ flex: 1, backgroundColor: config.themeColor, paddingBottom: 10, }}>

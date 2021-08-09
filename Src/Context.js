@@ -5,6 +5,7 @@ import Router from './Router'
 import AppContext from './constant'
 import config from './Config'
 import Toast from 'react-native-simple-toast'
+import Config from './Config';
 
 const Realm = require('realm');
 
@@ -48,6 +49,8 @@ function Context(props) {
   const [syncinfo, setSyncInfo] = useState(null)
   const [billArray, setBillArray] = useState([])
   const [openedBill, setOpenedBill] = useState(null)
+  const [currentPrinter, setCurrentPrinter] = useState();
+
 
   useEffect(() => {
     getLocalBills()
@@ -292,7 +295,7 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://www.arafamobiles.com/api/v1/general/access-shops/',
+      url: Config.ipAddress + '/general/access-shops/',
       headers: {
         Authorization: 'Bearer ' + userToken
       }
@@ -308,6 +311,7 @@ function Context(props) {
       .catch(function (error) {
         setDownloading(false)
         Toast.show('download failed')
+        console.warn(error)
       });
 
   }
@@ -322,7 +326,7 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://arafamobiles.com/api/v1/general/warehouses/' + shopid,
+      url: Config.ipAddress + '/general/warehouses/' + shopid,
       headers: {}
     };
 
@@ -357,7 +361,7 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://arafamobiles.com/api/v1/general/customers/' + id,
+      url: Config.ipAddress + '/general/customers/' + id,
     };
 
     axios(config)
@@ -399,7 +403,7 @@ function Context(props) {
 
     var config = {
       method: 'get',
-      url: 'http://arafamobiles.com/api/v1/products/products/' + selectedShop.shop_pk,
+      url: Config.ipAddress + '/products/products/' + selectedShop.shop_pk,
     };
 
     axios(config)
@@ -524,7 +528,8 @@ function Context(props) {
         setSelectedWareHose,
         selectedWareHose,
         splash,
-        setSplash
+        setSplash,
+        currentPrinter, setCurrentPrinter
       }}>
       <Router />
     </AppContext.Provider>

@@ -6,7 +6,7 @@ import React, {
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-simple-toast'
-import config from '../Config'
+import Config from '../Config'
 import AppContext from '../constant'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
@@ -26,7 +26,7 @@ function Uploader(props) {
 
         var config = {
             method: 'post',
-            url: 'http://arafamobiles.com/api/v1/sales/create/',
+            url: Config.ipAddress + '/sales/create/',
             headers: {
                 'Authorization': 'Bearer ' + userToken,
             },
@@ -67,7 +67,7 @@ function Uploader(props) {
                 <View style={{ flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'gray' }}>Uploading <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'green' }}>{billArray.length}</Text> Bills</Text>
+                            <Text style={{ fontFamily: Config.regular, fontSize: 12, color: 'gray' }}>Uploading <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'green' }}>{billArray.length}</Text> Bills</Text>
                             <ActivityIndicator size={15} color='orange' />
                         </View>
                     </View>
@@ -76,7 +76,7 @@ function Uploader(props) {
                             props.onUploadFailed()
                         }}
                         style={{ height: 50, backgroundColor: '#f0615b', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontFamily: config.bold, color: 'white' }}>STOP UPLOADING</Text>
+                        <Text style={{ fontFamily: Config.bold, color: 'white' }}>STOP UPLOADING</Text>
                     </TouchableOpacity>
                 </View>
 

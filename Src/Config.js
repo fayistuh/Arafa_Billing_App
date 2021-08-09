@@ -12,7 +12,7 @@ export default {
     regular: 'Poppins-Regular',
     light: 'Poppins-Light',
     border_color: '#ded5d5',
-    ipAddress: 'http://www.arafamobiles.com',
+    ipAddress: 'https://www.arafamobiles.com/api/v1',
     themeColor: '#3c4a8c'
 
 
