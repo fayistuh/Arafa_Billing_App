@@ -25,7 +25,7 @@ import Xprinter from '../Components/Xprinter/PrintFormatter'
 
 export default function index(props) {
     const { billArray,
-        setBillArray, updateLocalBills, syncinfo, currentPrinter, setCurrentPrinter } = useContext(AppContext)
+        setBillArray, updateLocalBills, syncinfo, currentPrinter, setCurrentPrinter, shopNumber } = useContext(AppContext)
     const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
@@ -280,8 +280,20 @@ export default function index(props) {
 
 
     const printTextTest = (Data) => {
-        var printText = Xprinter.makeBillFormat(Data)
-        currentPrinter && BLEPrinter.printBill(printText);
+        if ((Data.sale_items).length) {
+            var shopName = (syncinfo.shop.shop_name).toUpperCase()
+            var xx = Xprinter.makeBillFormat(Data, shopName, shopNumber)
+            if (xx) {
+                console.warn('printed')
+            }
+            else {
+                console.warn('not printed')
+            }
+        }
+        else {
+            Toast.show('No products added in this Bill')
+        }
+
     }
 
 

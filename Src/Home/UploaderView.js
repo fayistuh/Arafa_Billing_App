@@ -67,7 +67,7 @@ function Uploader(props) {
                 <View style={{ flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ fontFamily: Config.regular, fontSize: 12, color: 'gray' }}>Uploading <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'green' }}>{billArray.length}</Text> Bills</Text>
+                            <Text style={{ fontFamily: Config.regular, fontSize: 12, color: 'gray' }}>Uploading <Text style={{ fontFamily: Config.regular, fontSize: 12, color: 'green' }}>{billArray.length}</Text> Bills</Text>
                             <ActivityIndicator size={15} color='orange' />
                         </View>
                     </View>

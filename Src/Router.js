@@ -14,6 +14,7 @@ import AddSale from './Sale/AddSale'
 import Adder from './Adder/index'
 import NewBill from './Bill/index'
 import Splash from './Splash'
+import SettingsScreen from './Components/Xprinter/SettingsScreen'
 import AppContext from './constant';
 
 enableScreens();
@@ -36,6 +37,7 @@ const MyStack = () => {
                 <Stack.Screen name='addsale' component={AddSale} />
                 <Stack.Screen name='adder' component={Adder} />
                 <Stack.Screen name='newbill' component={NewBill} />
+                <Stack.Screen name='settings' component={SettingsScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

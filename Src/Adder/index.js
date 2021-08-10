@@ -137,6 +137,7 @@ export default function indexX(props) {
         updateLocalBills(dummyBills)
         Toast.show('Bill Saved')
         console.warn(updatedBillObj)
+        props.navigation.goBack()
 
 
     }

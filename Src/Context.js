@@ -50,6 +50,7 @@ function Context(props) {
   const [billArray, setBillArray] = useState([])
   const [openedBill, setOpenedBill] = useState(null)
   const [currentPrinter, setCurrentPrinter] = useState();
+  const [shopNumber, setShopNumber] = useState('')
 
 
   useEffect(() => {
@@ -529,6 +530,7 @@ function Context(props) {
         selectedWareHose,
         splash,
         setSplash,
+        shopNumber, setShopNumber,
         currentPrinter, setCurrentPrinter
       }}>
       <Router />

@@ -22,7 +22,7 @@ export default function index(props) {
 
         var config = {
             method: 'post',
-            url: ip + '/api/v1/auth/login/',
+            url: ip + `/auth/login/`,
             data: data
         };
 
@@ -34,11 +34,14 @@ export default function index(props) {
                 }
                 else {
                     Toast.show('Login failed')
+                    alert(response.data?.message)
+                    storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
+
                 }
 
             })
             .catch(function (error) {
-                storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
+                // storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
 
                 alert(error)
                 setActivity(false)

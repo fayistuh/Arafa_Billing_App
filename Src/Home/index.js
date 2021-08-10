@@ -118,7 +118,9 @@ export default function index(props) {
                                     <Text style={{ fontFamily: config.light, color: 'gray', }}>Last synced at <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getTime(syncinfo.lastSync)}</Text></Text>
                                     <Text style={{ fontFamily: config.light, color: 'gray', }}>On <Text style={{ fontFamily: config.medium, color: config.themeColor }}>{getDate(syncinfo.lastSync)}</Text></Text>
                                 </View>
-                                <HomeView />
+                                <HomeView
+                                    onPressSettings={() => props.navigation.navigate('settings')}
+                                />
 
                                 <View style={{ alignItems: 'center' }}>
                                     <CustomeButton
