@@ -9,6 +9,7 @@ import Toast from 'react-native-simple-toast'
 import Config from '../Config'
 import AppContext from '../constant'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Snackbar from 'react-native-snackbar';
 
 
 function Uploader(props) {
@@ -47,7 +48,7 @@ function Uploader(props) {
 
                 }
                 else {
-                    props.onUploadFailed()
+                    props.onUploadFailed(data, response.data)
 
                 }
             })

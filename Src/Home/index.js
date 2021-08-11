@@ -10,6 +10,8 @@ import x from './dm'
 import { Uploader } from './UploaderView'
 import Config from '../Config'
 import HomeView from '../Components/Xprinter/HomeView'
+import Snackbar from 'react-native-snackbar';
+
 
 
 
@@ -92,6 +94,24 @@ export default function index(props) {
         props.navigation.navigate('login')
     }
 
+    const uploadFaildAction = (data, res) => {
+        Alert.alert(
+            "ERROR",
+            "Upload failed Unexpectedly",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "See Reason", onPress: () => props.navigation.navigate('uploadfailedreason', { data, res })
+
+                }
+            ],
+            { cancelable: false }
+        );
+    }
 
 
 
@@ -234,9 +254,13 @@ export default function index(props) {
                         setUploading(false)
                         Toast.show('Uploaded successfully')
                     }}
-                    onUploadFailed={() => {
+                    onUploadFailed={(data, res) => {
+                        if (data) {
+                            uploadFaildAction(data, res)
+                        }
                         setUploading(false)
                         Toast.show('Upload failed')
+
                     }}
                 />
 

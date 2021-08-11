@@ -5,6 +5,7 @@ import config from '../Config'
 function CustomeButton(props) {
     return (
         <TouchableOpacity
+            disabled={props.disabled}
             onPress={props.onPress}
             style={[styles.container, { marginVertical: props.MarginVertical ? props.MarginVertical : 0 }]}>
             <Text style={{ fontFamily: config.semi_bold, color: 'white', }}>{props.Content}</Text>

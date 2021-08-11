@@ -18,3 +18,14 @@ export default {
 
 }
 
+
+//**************IMPORTANT FIXING****************************** */
+
+//react-native-bluetooth-escpos-printer
+
+//YOUR_PROJECT/node_modules/react-native-bluetooth-escpos-printer/android/build.gradle
+//android {
+   // compileSdkVersion 28
+   // buildToolsVersion "28.0.3"   
+//}
+

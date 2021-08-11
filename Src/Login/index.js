@@ -14,6 +14,7 @@ export default function index(props) {
 
 
     const userLogin = () => {
+        setActivity(true)
         var axios = require('axios');
         var FormData = require('form-data');
         var data = new FormData();
@@ -31,11 +32,13 @@ export default function index(props) {
                 if (response.data.StatusCode == 6000) {
                     Toast.show('Login Success')
                     storeUserToken(response.data.data.access)
+                    setActivity(false)
+
                 }
                 else {
                     Toast.show('Login failed')
                     alert(response.data?.message)
-                    storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
+                    // storeUserToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwidXNlcl9pZCI6MSwianRpIjoiN2MwMDJhMDRhMzIyNGUyNGFjMWQ4YWI3YWIwMGY2ZmUiLCJleHAiOjE2Mzk3MTU2NDJ9.SSR8mTyv8oyc7BUkSA8e-0I-Or3M1I5_A6ZDc04TOq8')     // TEMPORARY ADJUSTMENT********************************************************
 
                 }
 
@@ -131,6 +134,7 @@ export default function index(props) {
                     <View style={{ height: 70 }} />
 
                     <CustomeButton
+                        disabled={activity}
                         onPress={() => {
                             if (userName == '') {
                                 alert('Enter user name')

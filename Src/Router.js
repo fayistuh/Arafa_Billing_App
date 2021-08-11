@@ -16,6 +16,7 @@ import NewBill from './Bill/index'
 import Splash from './Splash'
 import SettingsScreen from './Components/Xprinter/SettingsScreen'
 import AppContext from './constant';
+import UploadFailedReason from './UploadFaildReasonScreen'
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -38,6 +39,7 @@ const MyStack = () => {
                 <Stack.Screen name='adder' component={Adder} />
                 <Stack.Screen name='newbill' component={NewBill} />
                 <Stack.Screen name='settings' component={SettingsScreen} />
+                <Stack.Screen name='uploadfailedreason' component={UploadFailedReason} />
             </Stack.Navigator>
         </NavigationContainer>
     );
