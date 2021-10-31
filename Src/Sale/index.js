@@ -91,7 +91,7 @@ export default function index(props) {
                 </td>
                 
                 <td>
-                    ${item.price}
+                    ${(item.price).toFixed(2)}
                 </td>
             </tr>`
             pro_list = pro_list + billrow
@@ -100,7 +100,7 @@ export default function index(props) {
 
 
         })
-        return { list: pro_list, sub_total: total }
+        return { list: pro_list, sub_total: total.toFixed(2) }
 
     }
 
@@ -243,7 +243,7 @@ export default function index(props) {
         var t = 0
         products.map((item) => {
 
-            var billrow = `%0a${item.product_code} - ${item.name} - ${item.qty} - ₹${item.price - item.discount}`
+            var billrow = `%0a${item.product_code} - ${item.name} - ${item.qty} - ₹${(item.price - item.discount).toFixed(2)}`
             pro_list = pro_list + billrow
             t = t + item.price
 
@@ -254,7 +254,7 @@ export default function index(props) {
         var billDiscount = Data.special_discount
         var Total = subTotal - billDiscount
 
-        var summary = `%0a Total ₹${Total}`
+        var summary = `%0a Total ₹${Total.toFixed(2)}`
 
         // var shopName = syncinfo.shop.shop_name
         var shopName = `${syncinfo.shop.shop_name}`

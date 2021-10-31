@@ -38,7 +38,7 @@ const makeFormat = async (Data, shopName, shopNumber) => {
     await BluetoothEscposPrinter.printText("...............................\n", {});
 
     products.map((item) => {
-        var price = `${item.price - item.discount}`
+        var price = `${item.cost}`
         printRow(item.product_code, item.name, item.qty, price)
         t = t + item.price
     })
@@ -46,7 +46,7 @@ const makeFormat = async (Data, shopName, shopNumber) => {
     await BluetoothEscposPrinter.printText("...............................\n\n", {});
 
     var subTotal = t
-    var billDiscount = Data.special_discount
+    var billDiscount = parseFloat(Data.special_discount)
     var Total = subTotal - billDiscount
 
     await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
@@ -55,13 +55,13 @@ const makeFormat = async (Data, shopName, shopNumber) => {
 
     await BluetoothEscposPrinter.printColumn(summaryColumn,
         [BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-        ['Sub Total', `Rs.${subTotal}`], {});
+        ['Sub Total', `Rs.${subTotal.toFixed(2)}`], {});
     await BluetoothEscposPrinter.printColumn(summaryColumn,
         [BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-        ['Discount', `Rs.${billDiscount}`], {});
+        ['Discount', `Rs.${billDiscount.toFixed(2)}`], {});
     await BluetoothEscposPrinter.printColumn(summaryColumn,
         [BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-        ['Total', `Rs.${Total}`], {});
+        ['Total', `Rs.${Total.toFixed(2)}`], {});
 
     return true
 }

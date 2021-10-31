@@ -249,7 +249,7 @@ export default function indexX(props) {
                                     <Text style={{ fontFamily: config.regular, fontSize: 12, color: 'gray', marginHorizontal: 10 }}>Sub Total</Text>
                                     <View style={{ height: 40, width: 110, borderRadius: 20, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', flexDirection: 'row', backgroundColor: config.themeColor }}>
                                         <MaterialCommunityIcons name='currency-inr' color='white' size={15} style={{ marginTop: -5 }} />
-                                        <Text style={{ fontFamily: config.medium, color: 'white' }}>{(price * qty) - discount * qty} </Text>
+                                        <Text style={{ fontFamily: config.medium, color: 'white' }}>{((price * qty) - discount * qty).toFixed(2)} </Text>
                                     </View>
 
                                 </View>
