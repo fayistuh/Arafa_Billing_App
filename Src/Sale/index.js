@@ -286,6 +286,7 @@ export default function index(props) {
             if (xx) {
                 console.warn('printed')
             }
+
             else {
                 console.warn('not printed')
             }
